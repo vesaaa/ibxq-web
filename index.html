@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>爱伴星球 IBXQ</title>
+<meta name="description" content="爱伴星球（IBXQ）是一个做精品软件的独立工作室。I Build eXquisite Quality。旗下产品：Vitatome 健康一生、VsTerm、VsTV、VsChat、CleanViddaTV。">
+<meta name="theme-color" content="#F1F2F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1020" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://ibxq.com/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="爱伴星球 IBXQ">
+<meta property="og:title" content="爱伴星球 IBXQ">
+<meta property="og:description" content="I Build eXquisite Quality. 一个做精品软件的独立工作室。">
+<meta property="og:url" content="https://ibxq.com/">
+<meta property="og:image" content="https://ibxq.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+/* Layout: an orrery. The brand is the star at the centre; each product is a planet on its own orbit.
+   The hero pairs the wordmark and its acronym key with the live orbit diagram. */
+:root{
+  --bg:#F1F2F6;          /* cool dawn paper */
+  --surface:#FFFFFF;
+  --ink:#151A2C;
+  --muted:#5B6177;
+  --line:#D5D8E2;
+  --love:#C6435A;        /* 爱 — brand accent */
+  --p-vita:#178F7E;      /* Vitatome */
+  --p-term:#5E50BE;      /* VSTerm */
+  --p-tv:#C96A22;        /* VsTV */
+  --p-chat:#2E68C4;      /* VsChat */
+  --p-clean:#957414;     /* CleanViddaTV */
+  --display:"Noto Serif SC","Songti SC","STSong",serif;
+  --latin:"Newsreader","Georgia",serif;
+  --body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1020; --surface:#141A2E; --ink:#E8EAF2; --muted:#9BA1B7; --line:#262D45;
+    --love:#F07388; --p-vita:#3FC4AF; --p-term:#9C8EF2; --p-tv:#F09A55; --p-chat:#6FA2F0; --p-clean:#D8B54C; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1020; --surface:#141A2E; --ink:#E8EAF2; --muted:#9BA1B7; --line:#262D45;
+  --love:#F07388; --p-vita:#3FC4AF; --p-term:#9C8EF2; --p-tv:#F09A55; --p-chat:#6FA2F0; --p-clean:#D8B54C; color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--love);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{flex:none}
+.brand b{font-family:var(--display);font-weight:900;font-size:18px;letter-spacing:.04em}
+.brand span{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.12em}
+.nav{display:flex;gap:22px;font-size:14px}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding-block:40px 72px}
+.hero>*{min-width:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.wordmark{font-family:var(--display);font-weight:900;font-size:clamp(56px,9vw,104px);line-height:1.05;letter-spacing:.06em;margin-top:14px}
+.wordmark .ai{color:var(--love)}
+.slogan{font-family:var(--latin);font-style:italic;font-size:clamp(22px,2.6vw,30px);margin-top:10px;color:var(--ink)}
+.slogan em{font-style:italic;color:var(--love)}
+
+.key{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.key div{padding:14px 10px 12px;border-left:1px solid var(--line);display:grid;gap:2px}
+.key div:first-child{border-left:0;padding-left:0}
+.key .l{font-family:var(--mono);font-weight:500;font-size:22px;color:var(--love);line-height:1.2}
+.key .zh{font-family:var(--display);font-weight:600;font-size:18px;line-height:1.4}
+.key .py{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.key .en{font-family:var(--latin);font-style:italic;font-size:16px;line-height:1.4;overflow-wrap:anywhere}
+.key .en u{text-decoration:none;color:var(--love)}
+
+.lead{margin-top:26px;color:var(--muted);max-width:34em}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-size:15px;text-decoration:none;border:1px solid var(--ink);transition:background .2s,color .2s}
+.btn.solid{background:var(--ink);color:var(--bg)}
+.btn.solid:hover{background:var(--love);border-color:var(--love)}
+.btn.ghost:hover{background:var(--surface)}
+
+.orrery-box{position:relative;width:100%;max-width:100%;aspect-ratio:1/0.92}
+#orrery{width:100%;height:100%;display:block}
+.orrery-cap{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-align:right;margin-top:6px}
+
+/* sections */
+section{padding-block:72px;border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 32px;margin-bottom:36px}
+.sec-head h2{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.4vw,38px);letter-spacing:.04em}
+.sec-head p{color:var(--muted);max-width:30em}
+
+/* products */
+.plist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.prod{display:grid;grid-template-columns:28px minmax(0,1.1fr) minmax(0,2fr) auto;gap:8px 28px;align-items:start;padding:28px 16px;margin-inline:-16px;border-bottom:1px solid var(--line);border-radius:6px;transition:background .25s}
+.prod:hover,.prod.on{background:var(--surface)}
+.dot{width:16px;height:16px;border-radius:50%;margin-top:9px;background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 18%,transparent)}
+.prod h3{font-family:var(--latin);font-style:italic;font-weight:400;font-size:30px;line-height:1.2}
+.prod .tag{font-family:var(--display);font-weight:600;font-size:15px;color:var(--c);margin-top:4px}
+.prod .desc{color:var(--muted);max-width:36em;padding-top:6px}
+.prod .meta{display:grid;justify-items:end;gap:10px;padding-top:8px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.live{border-color:var(--c);color:var(--c)}
+.prod.soon .dot{background:transparent;border:2px dashed var(--c);box-shadow:none}
+.prod.soon h3{color:var(--muted)}
+.prod .meta a{font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--ink);white-space:nowrap}
+.prod .meta a:hover{color:var(--c)}
+
+/* beliefs */
+.beliefs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+.belief h3{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:.06em;display:flex;align-items:center;gap:12px}
+.belief h3::before{content:"";width:10px;height:10px;border-radius:50%;border:2px solid var(--love);flex:none}
+.belief p{color:var(--muted);margin-top:12px}
+
+/* contact + footer */
+.contact{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+.contact h2{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.4vw,38px);letter-spacing:.04em}
+.contact p{color:var(--muted);margin-top:8px}
+.mail{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mail code{font-family:var(--mono);font-size:18px;padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);user-select:all}
+.mail button{font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.mail button:hover{background:var(--ink);color:var(--bg)}
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-block:24px;font-size:13px;color:var(--muted)}
+footer .mono{font-family:var(--mono)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-block:16px 56px}
+  .orrery-box{max-width:520px;margin:0 auto}
+  .prod{grid-template-columns:24px minmax(0,1fr)}
+  .prod .desc,.prod .meta{grid-column:2}
+  .prod .meta{justify-items:start;grid-auto-flow:column;justify-content:start;align-items:center;gap:16px}
+  .beliefs{grid-template-columns:1fr;gap:32px}
+}
+@media (max-width:520px){
+  .nav{gap:14px}
+  .nav a:nth-child(2){display:none}
+  .key .l{font-size:18px}
+  .key .zh{font-size:16px}
+  .key .en{font-size:14px}
+  section{padding-block:56px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <a class="brand" href="#top" aria-label="爱伴星球 首页">
+    <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+      <ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="var(--muted)" stroke-width="1.2" transform="rotate(-18 15 15)"/>
+      <circle cx="15" cy="15" r="5.5" fill="var(--love)"/>
+      <circle cx="26.5" cy="11" r="2.2" fill="var(--p-vita)"/>
+    </svg>
+    <b>爱伴星球</b><span>IBXQ</span>
+  </a>
+  <nav class="nav">
+    <a href="#products">产品</a>
+    <a href="#beliefs">理念</a>
+    <a href="#contact">联系</a>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">独立软件工作室 · ibxq.com</p>
+      <h1 class="wordmark"><span class="ai">爱</span>伴星球</h1>
+      <p class="slogan">I Build <em>eXquisite</em> Quality.</p>
+
+      <div class="key" aria-label="IBXQ 名字的由来">
+        <div><span class="l">I</span><span class="zh">爱</span><span class="py">ài</span><span class="en"><u>I</u></span></div>
+        <div><span class="l">B</span><span class="zh">伴</span><span class="py">bàn</span><span class="en"><u>B</u>uild</span></div>
+        <div><span class="l">X</span><span class="zh">星</span><span class="py">xīng</span><span class="en">e<u>X</u>quisite</span></div>
+        <div><span class="l">Q</span><span class="zh">球</span><span class="py">qiú</span><span class="en"><u>Q</u>uality</span></div>
+      </div>
+
+      <p class="lead">我们只做少数几款软件，每一款都慢慢打磨。它们像卫星一样绕着同一个想法转：好软件应该安静、可靠，一直陪在你和家人身边。</p>
+      <div class="cta">
+        <a class="btn solid" href="#products">看看我们的产品</a>
+        <a class="btn ghost" href="#contact">联系我们</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="orrery-box"><canvas id="orrery" role="img" aria-label="轨道图：Vitatome、VsTerm、VsTV、VsChat、CleanViddaTV、OpenTalon 六个产品绕着爱伴星球运行"></canvas></div>
+      <p class="orrery-cap">悬停产品名，查看它的轨道</p>
+    </div>
+  </div>
+
+  <section id="products">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>旗下产品</h2>
+        <p>六颗星球，各走各的轨道，都用同样的标准来做。</p>
+      </div>
+      <ul class="plist">
+        <li class="prod" data-id="vita" style="--c:var(--p-vita)">
+          <span class="dot" aria-hidden="true"></span>
+          <div><h3>Vitatome</h3><p class="tag">健康一生</p></div>
+          <p class="desc">拍下化验单和体检报告，AI 帮你读懂每一项指标，按年份看出变化趋势。还能给父母和孩子分别建档，全家的健康记录放在一处，再也不怕纸质单子丢了。</p>
+          <div class="meta"><span class="chip live">开发中</span><a href="https://vitatome.com" target="_blank" rel="noopener">vitatome.com ↗</a></div>
+        </li>
+        <li class="prod" data-id="term" style="--c:var(--p-term)">
+          <span class="dot" aria-hidden="true"></span>
+          <div><h3>VsTerm</h3><p class="tag">SSH 终端</p></div>
+          <p class="desc">跨平台 SSH 终端，用 Rust 原生开发，不是 Electron。终端、SFTP 文件和传输在同一条会话里完成，还内置进程、容器、磁盘、网络路由和安全检查等运维面板，不用来回切工具。</p>
+          <div class="meta"><span class="chip live" data-repo="vsterm">v1.5.6 已发布</span><a href="https://www.vsterm.com" target="_blank" rel="noopener">vsterm.com ↗</a></div>
+        </li>
+        <li class="prod" data-id="tv" style="--c:var(--p-tv)">
+          <span class="dot" aria-hidden="true"></span>
+          <div><h3>VsTV</h3><p class="tag">电视直播</p></div>
+          <p class="desc">给电视和盒子用的直播应用，安装包不到 10MB，秒开秒换台，没有广告。支持运营商组播、7 天回看、分屏同看和 AI 实时字幕；打开「只看精选」，长辈就不会再找不到台。</p>
+          <div class="meta"><span class="chip live" data-repo="vstv">v2.8.0 已发布</span><a href="https://github.com/vesaaa/vstv/releases" target="_blank" rel="noopener">GitHub 下载 ↗</a></div>
+        </li>
+        <li class="prod" data-id="chat" style="--c:var(--p-chat)">
+          <span class="dot" aria-hidden="true"></span>
+          <div><h3>VsChat</h3><p class="tag">AI 对话</p></div>
+          <p class="desc">小巧的自托管多用户 AI 对话。一个 Go 程序加一个 SQLite 文件，镜像约 25 MB。填上 Key 就能用 ChatGPT、Claude、Gemini、DeepSeek、通义千问等模型，每人有自己的账号和对话记录，管理员可以给每人设月度额度。</p>
+          <div class="meta"><span class="chip live" data-repo="vschat">v0.3.8 已发布</span><a href="https://github.com/vesaaa/vschat" target="_blank" rel="noopener">GitHub ↗</a></div>
+        </li>
+        <li class="prod" data-id="clean" style="--c:var(--p-clean)">
+          <span class="dot" aria-hidden="true"></span>
+          <div><h3>CleanViddaTV</h3><p class="tag">电视桌面</p></div>
+          <p class="desc">给国行海信 / Vidda 电视换一个清爽桌面：停用预装广告、数据上报和推送，换成仿 tvOS 的轻量桌面，开机直接进入。不需要 root，随时可以一键恢复原厂。基于开源项目 CleanYourTV 改造。</p>
+          <div class="meta"><span class="chip live" data-repo="cleanviddatv">v1.2.1 已发布</span><a href="https://github.com/vesaaa/cleanviddatv" target="_blank" rel="noopener">GitHub ↗</a></div>
+        </li>
+        <li class="prod soon" data-id="talon" style="--c:var(--muted)">
+          <span class="dot" aria-hidden="true"></span>
+          <div><h3>OpenTalon</h3><p class="tag">利爪</p></div>
+          <p class="desc">新产品，正在构思中。</p>
+          <div class="meta"><span class="chip">构思中</span></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="beliefs">
+    <div class="wrap">
+      <div class="sec-head"><h2>我们相信</h2></div>
+      <div class="beliefs">
+        <div class="belief"><h3>少而精</h3><p>宁可少做一个功能，也要把已有的做到位。每个细节都要经得起每天使用。</p></div>
+        <div class="belief"><h3>隐私优先</h3><p>你的数据属于你。VsTerm 的云同步先在本机加密再上传，服务器只存密文，我们自己也读不到。Vitatome 的健康记录会按同样的标准保护。</p></div>
+        <div class="belief"><h3>为家人而做</h3><p>我们做的软件，先给自己和家人用。Vitatome 可以给父母和孩子分别建档；VsTV 上，长辈报一个 4 位数字，家人就能远程帮他把直播源加好。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <div>
+        <h2>来聊聊</h2>
+        <p>合作、反馈或者只是打个招呼，都欢迎写信。</p>
+      </div>
+      <div class="mail">
+        <code id="mail">vesaazheng@gmail.com</code>
+        <button type="button" id="copy">复制邮箱</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 爱伴星球 IBXQ · I Build eXquisite Quality</span>
+    <span class="mono">ibxq.com</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const cv = document.getElementById('orrery');
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const planets = [
+    { id:'vita',  name:'Vitatome',     r:0.36, speed:0.00013, phase:0.5, size:8, color:'--p-vita'  },
+    { id:'term',  name:'VsTerm',       r:0.48, speed:0.00010, phase:2.6, size:7, color:'--p-term'  },
+    { id:'tv',    name:'VsTV',         r:0.60, speed:0.00008, phase:4.4, size:7, color:'--p-tv'    },
+    { id:'chat',  name:'VsChat',       r:0.72, speed:0.00006, phase:1.4, size:6, color:'--p-chat'  },
+    { id:'clean', name:'CleanViddaTV', r:0.84, speed:0.00005, phase:3.5, size:6, color:'--p-clean' },
+    { id:'talon', name:'OpenTalon',    r:0.96, speed:0.00004, phase:5.6, size:5, color:'--muted', hollow:true },
+  ];
+  const TILT = -0.26, SQUASH = 0.40;
+  let W = 0, H = 0, active = null, colors = {};
+
+  function readColors(){
+    const s = getComputedStyle(document.documentElement);
+    for (const k of ['--ink','--muted','--line','--love','--bg','--p-vita','--p-term','--p-tv','--p-chat','--p-clean'])
+      colors[k] = s.getPropertyValue(k).trim();
+  }
+  function resize(){
+    const r = cv.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function pos(p, t, R, cx, cy){
+    const a = p.phase + t * p.speed;
+    const x0 = Math.cos(a) * R * p.r, y0 = Math.sin(a) * R * p.r * SQUASH;
+    return { x: cx + x0*Math.cos(TILT) - y0*Math.sin(TILT), y: cy + x0*Math.sin(TILT) + y0*Math.cos(TILT), depth: Math.sin(a) };
+  }
+  function drawPlanet(p, q){
+    const on = active === p.id;
+    const s = p.size * (1 + 0.18 * q.depth) * (on ? 1.35 : 1);
+    if (p.hollow){
+      ctx.fillStyle = colors['--bg']; ctx.strokeStyle = colors[p.color]; ctx.lineWidth = 1.5;
+      ctx.setLineDash([2, 2]);
+      ctx.beginPath(); ctx.arc(q.x, q.y, s, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+      ctx.setLineDash([]);
+    } else {
+      ctx.globalAlpha = 0.18;
+      ctx.fillStyle = colors[p.color];
+      ctx.beginPath(); ctx.arc(q.x, q.y, s * 2.1, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.arc(q.x, q.y, s, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle = on ? colors[p.color] : colors['--ink'];
+    ctx.font = (on ? '500 ' : '400 ') + '12px "JetBrains Mono", ui-monospace, monospace';
+    const right = q.x < W - 110;
+    ctx.textAlign = right ? 'left' : 'right';
+    ctx.fillText(p.name, q.x + (right ? s + 10 : -s - 10), q.y + 4);
+  }
+  function frame(now){
+    const t = reduce.matches ? 0 : now;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2, R = Math.min(W/2 - 8, H/2 / SQUASH - 8);
+
+    for (const p of planets){
+      const on = active === p.id;
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(TILT);
+      ctx.beginPath(); ctx.ellipse(0, 0, R*p.r, R*p.r*SQUASH, 0, 0, Math.PI*2);
+      ctx.strokeStyle = on ? colors[p.color] : colors['--line'];
+      ctx.lineWidth = on ? 1.6 : 1;
+      ctx.setLineDash(on ? [] : [2, 5]);
+      ctx.stroke(); ctx.restore();
+    }
+    ctx.setLineDash([]);
+
+    const placed = planets.map(p => ({ p, q: pos(p, t, R, cx, cy) }));
+    placed.filter(o => o.q.depth < 0).forEach(o => drawPlanet(o.p, o.q));
+
+    const sr = Math.max(18, R * 0.09);
+    const g = ctx.createRadialGradient(cx, cy, sr*0.4, cx, cy, sr*3);
+    g.addColorStop(0, colors['--love']); g.addColorStop(1, 'transparent');
+    ctx.globalAlpha = 0.22; ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, sr*3, 0, Math.PI*2); ctx.fill();
+    ctx.globalAlpha = 1; ctx.fillStyle = colors['--love'];
+    ctx.beginPath(); ctx.arc(cx, cy, sr, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = colors['--bg'];
+    ctx.font = '900 ' + Math.round(sr*1.05) + 'px "Noto Serif SC", serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('爱', cx, cy + 1);
+    ctx.textBaseline = 'alphabetic';
+
+    placed.filter(o => o.q.depth >= 0).forEach(o => drawPlanet(o.p, o.q));
+    if (!reduce.matches) requestAnimationFrame(frame);
+  }
+
+  readColors(); resize();
+  requestAnimationFrame(frame);
+  new ResizeObserver(() => { resize(); if (reduce.matches) frame(0); }).observe(cv);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); if (reduce.matches) frame(0); });
+  new MutationObserver(() => { readColors(); if (reduce.matches) frame(0); }).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+  reduce.addEventListener('change', () => requestAnimationFrame(frame));
+  if (document.fonts) document.fonts.ready.then(() => { if (reduce.matches) frame(0); });
+
+  // product rows <-> orbits
+  const rows = document.querySelectorAll('.prod');
+  rows.forEach(row => {
+    const set = id => { active = id; rows.forEach(r => r.classList.toggle('on', r.dataset.id === id)); if (reduce.matches) frame(0); };
+    row.addEventListener('mouseenter', () => set(row.dataset.id));
+    row.addEventListener('mouseleave', () => set(null));
+  });
+  // hovering a planet in the diagram highlights its row
+  cv.addEventListener('mousemove', e => {
+    const b = cv.getBoundingClientRect(), mx = e.clientX - b.left, my = e.clientY - b.top;
+    const cx = W/2, cy = H/2, R = Math.min(W/2 - 8, H/2 / SQUASH - 8);
+    const t = reduce.matches ? 0 : performance.now();
+    let hit = null;
+    for (const p of planets){ const q = pos(p, t, R, cx, cy); if (Math.hypot(q.x - mx, q.y - my) < 22) hit = p.id; }
+    active = hit; rows.forEach(r => r.classList.toggle('on', r.dataset.id === hit));
+    cv.style.cursor = hit ? 'pointer' : 'default';
+    if (reduce.matches) frame(0);
+  });
+  cv.addEventListener('mouseleave', () => { active = null; rows.forEach(r => r.classList.remove('on')); });
+  cv.addEventListener('click', () => { if (active) document.querySelector('.prod[data-id="'+active+'"]').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block:'center' }); });
+
+  // release versions: the numbers in the HTML are the fallback; on the live site they refresh
+  // from GitHub's latest release, cached per visitor for 6 hours to stay under the API rate limit.
+  (() => {
+    const KEY = 'ibxq-releases', TTL = 6 * 3600 * 1000;
+    let cache = {};
+    try { cache = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+    const show = (chip, tag, date) => {
+      chip.textContent = tag + ' 已发布';
+      if (date) chip.title = '发布于 ' + date.slice(0, 10);
+    };
+    const jobs = [...document.querySelectorAll('.chip[data-repo]')].map(async chip => {
+      const repo = chip.dataset.repo, hit = cache[repo];
+      if (hit && Date.now() - hit.t < TTL) { show(chip, hit.tag, hit.date); return; }
+      try {
+        const api = 'https://api.github.com/repos/vesaaa/' + repo, opts = { headers: { Accept: 'application/vnd.github+json' } };
+        let tag = null, date = null;
+        let r = await fetch(api + '/releases/latest', opts);
+        if (r.ok) {
+          const d = await r.json(); tag = d.tag_name; date = d.published_at;
+        } else if (r.status === 404) {
+          // no published release: use the highest stable tag instead (skips -beta, -rc …)
+          r = await fetch(api + '/tags?per_page=100', opts);
+          if (r.ok) {
+            const nums = t => (t.match(/\d+/g) || []).map(Number);
+            const newer = (a, b) => { const x = nums(a), y = nums(b); for (let i = 0; i < Math.max(x.length, y.length); i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) > (y[i] || 0); } return false; };
+            tag = (await r.json()).map(t => t.name).filter(n => /^v?\d/.test(n) && !n.includes('-'))
+              .reduce((best, n) => (!best || newer(n, best)) ? n : best, null);
+          }
+        }
+        if (!tag) return;
+        show(chip, tag, date);
+        cache[repo] = { tag, date, t: Date.now() };
+      } catch (e) { /* offline or blocked: keep the version written in the HTML */ }
+    });
+    Promise.all(jobs).then(() => { try { localStorage.setItem(KEY, JSON.stringify(cache)); } catch (e) {} });
+  })();
+
+  // copy email
+  const btn = document.getElementById('copy');
+  btn.addEventListener('click', () => {
+    const text = document.getElementById('mail').textContent;
+    const done = () => { btn.textContent = '已复制'; setTimeout(() => btn.textContent = '复制邮箱', 1800); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = '已选中，按 Ctrl+C 复制'; };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
