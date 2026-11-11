@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#060914">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ibxq.com/">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -72,7 +73,7 @@ header,main,footer{position:relative;z-index:1}
 .top-bar.stuck{border-bottom-color:var(--line)}
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand svg{flex:none;filter:drop-shadow(0 0 8px rgba(240,115,136,.6))}
+.brand svg{flex:none;filter:drop-shadow(0 0 8px rgba(240,115,136,.45))}
 .brand b{font-family:var(--display);font-weight:900;font-size:18px;letter-spacing:.04em}
 .brand span{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.18em}
 .nav{display:flex;gap:26px;font-size:14px}
@@ -270,11 +271,7 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
 <header class="top-bar">
   <div class="wrap top">
     <a class="brand" href="#top" aria-label="爱伴星球 首页">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
-        <ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="var(--muted)" stroke-width="1.2" transform="rotate(-18 15 15)"/>
-        <circle cx="15" cy="15" r="5.5" fill="var(--love)"/>
-        <circle cx="26.5" cy="11" r="2.2" fill="var(--p-vita)"/>
-      </svg>
+      <svg width="45" height="30" viewBox="0 20 120 80" aria-hidden="true"><defs><linearGradient id="lgh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9CAB"/><stop offset=".45" stop-color="#F07388"/><stop offset="1" stop-color="#9C8EF2"/></linearGradient><linearGradient id="lgs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB3BE"/><stop offset="1" stop-color="#E0577A"/></linearGradient><linearGradient id="lgr" x1="0" x2="1"><stop offset="0" stop-color="#9C8EF2"/><stop offset="1" stop-color="#6FA2F0"/></linearGradient><mask id="lgm" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120"><path d="M0 -10C-8 -30 -40 -22 -40 2C-40 24 -14 36 0 52C14 36 40 24 40 2C40 -22 8 -30 0 -10Z" transform="translate(60 49) scale(.82)" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round"/></mask></defs><path d="M6 62A54 19 0 0 1 114 62" transform="rotate(-18 60 62)" stroke="url(#lgr)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M0 -10C-8 -30 -40 -22 -40 2C-40 24 -14 36 0 52C14 36 40 24 40 2C40 -22 8 -30 0 -10Z" transform="translate(60 49) scale(.82)" fill="none" stroke="url(#lgh)" stroke-width="7" stroke-linejoin="round"/><path d="M0 -10C-8 -30 -40 -22 -40 2C-40 24 -14 36 0 52C14 36 40 24 40 2C40 -22 8 -30 0 -10Z" transform="translate(60 54) scale(.42)" fill="url(#lgs)"/><g mask="url(#lgm)"><path d="M6 62A54 19 0 0 0 114 62" transform="rotate(-18 60 62)" stroke="#7A3572" stroke-width="10" fill="none"/></g><path d="M6 62A54 19 0 0 0 114 62" transform="rotate(-18 60 62)" stroke="url(#lgr)" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="111.4" cy="45.3" r="6.5" fill="#3FC4AF"/></svg>
       <b>爱伴星球</b><span>IBXQ</span>
     </a>
     <nav class="nav">

@@ -10,10 +10,12 @@
 |---|---|
 | `index.html` | 整个网站，CSS 和 JS 都写在里面 |
 | `fonts/` | 只包含页面用到的字的字体子集，由脚本生成 |
-| `favicon.svg`、`favicon-32.png`、`apple-touch-icon.png` | 网站图标 |
+| `favicon.svg`、`favicon.ico`、`favicon-32.png`、`apple-touch-icon.png` | 网站图标，由 `scripts/build-brand.py` 生成 |
+| `brand/` | 标志的全部版本和尺寸，用法见 [`brand/README.md`](brand/README.md) |
 | `og.png` | 分享链接时显示的预览图（1200×630），源文件是 `scripts/og.html` |
 | `_headers` | Cloudflare Pages 的缓存和安全响应头 |
 | `scripts/build-fonts.py` | 重新生成字体子集 |
+| `scripts/build-brand.py` | 重新生成 `brand/` 里的标志和网站图标 |
 
 ## 部署到 Cloudflare Pages
 
