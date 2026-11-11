@@ -108,7 +108,7 @@ header,main,footer{position:relative;z-index:1}
 .btn.ghost:hover{background:var(--surface2);border-color:rgba(255,255,255,.25)}
 
 .orrery-col{position:relative;z-index:1}
-.orrery-box{position:relative;width:122%;margin-left:-16%;aspect-ratio:1/0.86}
+.orrery-box{position:relative;width:122%;margin-left:-16%;aspect-ratio:1/0.7}
 #orrery{width:100%;height:100%;display:block;touch-action:pan-y}
 .orrery-cap{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em;text-align:right;margin-top:2px;opacity:.7}
 
@@ -305,7 +305,7 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
 
     <div class="orrery-col">
       <div class="orrery-box"><canvas id="orrery" role="img" aria-label="轨道图：Vitatome、VsTerm、VsTV、VsChat、CleanViddaTV、OpenTalon 六个产品绕着爱伴星球运行"></canvas></div>
-      <p class="orrery-cap">移动鼠标转动星系 · 点击星球查看产品</p>
+      <p class="orrery-cap">点击星球查看产品</p>
     </div>
   </div>
 
@@ -460,19 +460,20 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
     }
   }
 
-  // ---------- orrery: circular orbits in one plane, viewed in 3D; the pointer tilts the plane ----------
-  const cv = document.getElementById('orrery'), ctx = cv.getContext('2d');
+  // ---------- orrery: a heart for a star; each orbit glows brightest at its planet and fades over one lap ----------
+  const cv = document.getElementById('orrery'), ctx = cv.getContext('2d'), TAU = Math.PI * 2;
   const planets = [
-    { id:'vita',  name:'Vitatome',     r:0.34, speed:0.00016, a:0.5, size:9,   c:rgb('--p-vita')  },
-    { id:'term',  name:'VsTerm',       r:0.47, speed:0.00012, a:2.6, size:8,   c:rgb('--p-term')  },
-    { id:'tv',    name:'VsTV',         r:0.60, speed:0.00009, a:4.4, size:8,   c:rgb('--p-tv')    },
-    { id:'chat',  name:'VsChat',       r:0.73, speed:0.00007, a:1.4, size:7,   c:rgb('--p-chat')  },
-    { id:'clean', name:'CleanViddaTV', r:0.86, speed:0.000055,a:3.5, size:7,   c:rgb('--p-clean') },
-    { id:'talon', name:'OpenTalon',    r:0.98, speed:0.000042,a:5.6, size:5.5, c:rgb('--p-talon'), hollow:true },
+    { id:'vita',  name:'Vitatome',     r:0.36, speed:0.00013, a:0.5, size:9,   c:rgb('--p-vita')  },
+    { id:'term',  name:'VsTerm',       r:0.49, speed:0.00010, a:2.6, size:8,   c:rgb('--p-term')  },
+    { id:'tv',    name:'VsTV',         r:0.62, speed:0.00008, a:4.4, size:8,   c:rgb('--p-tv')    },
+    { id:'chat',  name:'VsChat',       r:0.75, speed:0.00006, a:1.4, size:7,   c:rgb('--p-chat')  },
+    { id:'clean', name:'CleanViddaTV', r:0.88, speed:0.00005, a:3.5, size:7,   c:rgb('--p-clean') },
+    { id:'talon', name:'OpenTalon',    r:1.00, speed:0.00004, a:5.6, size:5.5, c:rgb('--p-talon'), hollow:true },
   ];
-  const PITCH0 = 1.14, ROLL0 = -0.26;
+  const PITCH = 1.12, ROLL = -0.22, cp = Math.cos(PITCH), sp = Math.sin(PITCH), cr = Math.cos(ROLL), sr = Math.sin(ROLL);
   let W = 0, H = 0, R = 0, cx = 0, cy = 0, active = null, visible = true;
-  let pitch = PITCH0, roll = ROLL0, tPitch = PITCH0, tRoll = ROLL0, cp = 0, sp = 0, cr = 0, sr = 0;
+  // the heart rests, and every few seconds beats once (lub-dub) and sends two ripples out along the plane
+  let beatAt = -1e9, nextBeat = 1800; const ripples = [], RIPPLE = 6500;
 
   function resize(){
     const b = cv.getBoundingClientRect();
@@ -480,7 +481,7 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     cx = W / 2; cy = H / 2;
-    R = Math.min(W / 2 - 14, (H / 2 - 14) / (Math.cos(PITCH0 - 0.2) + 0.12));
+    R = Math.min((W / 2 - 14) / 1.06, (H / 2 - 14) / (cp + 0.2));
   }
   function proj(r, a){
     const x = r * Math.cos(a), z = r * Math.sin(a);
@@ -491,79 +492,92 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
     ctx.beginPath();
     for (let i = 0; i <= n; i++){ const q = proj(r, a0 + (a1 - a0) * i / n); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }
   }
+  function drawRing(p, on){
+    const n = 160, r = R * p.r;
+    ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'butt';
+    for (let i = 0; i < n; i++){
+      const e = Math.pow(1 - i / n, 2.6);                    // 1 just behind the planet, 0 after a full lap
+      orbitPath(r, p.a - TAU * i / n, p.a - TAU * (i + 1) / n, 2);
+      ctx.strokeStyle = rgba(p.c, 0.10 * e + 0.03); ctx.lineWidth = 7 * e + 1; ctx.stroke();
+      ctx.strokeStyle = rgba(mix(p.c, WHITE, 0.6 * e), (on ? 1 : 0.85) * e + (on ? 0.25 : 0.05)); ctx.lineWidth = 1 + 1.4 * e; ctx.stroke();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
   function drawPlanet(p){
     const q = p.q, on = active === p.id;
-    const s = p.size * q.k * (0.9 + 0.22 * q.d) * (on ? 1.4 : 1);
+    const s = p.size * q.k * (0.9 + 0.2 * q.d) * (on ? 1.35 : 1);
     if (p.hollow){
-      ctx.setLineDash([2.5, 2.5]); ctx.strokeStyle = rgba(p.c, on ? 1 : 0.8); ctx.lineWidth = 1.4;
+      ctx.setLineDash([2.5, 2.5]); ctx.strokeStyle = rgba(p.c, on ? 1 : 0.85); ctx.lineWidth = 1.4;
       ctx.fillStyle = rgba(BG, 0.9);
-      ctx.beginPath(); ctx.arc(q.x, q.y, s, 0, 6.2832); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(q.x, q.y, s, 0, TAU); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
     } else {
-      // halo
       ctx.globalCompositeOperation = 'lighter';
-      let g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, s * (on ? 6 : 4));
-      g.addColorStop(0, rgba(p.c, on ? 0.5 : 0.32)); g.addColorStop(1, rgba(p.c, 0));
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, s * 6, 0, 6.2832); ctx.fill();
+      let g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, s * (on ? 6 : 4.2));
+      g.addColorStop(0, rgba(p.c, on ? 0.55 : 0.36)); g.addColorStop(1, rgba(p.c, 0));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, s * 6, 0, TAU); ctx.fill();
       ctx.globalCompositeOperation = 'source-over';
-      // sphere, lit from the star
+      // sphere, lit from the heart
       const dx = cx - q.x, dy = cy - q.y, L = Math.hypot(dx, dy) || 1;
-      const hx = q.x + dx / L * s * 0.5, hy = q.y + dy / L * s * 0.5;
-      g = ctx.createRadialGradient(hx, hy, s * 0.05, q.x, q.y, s);
-      g.addColorStop(0, rgba(mix(p.c, WHITE, 0.7), 1)); g.addColorStop(0.5, rgba(p.c, 1)); g.addColorStop(1, rgba(mix(p.c, BG, 0.78), 1));
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, s, 0, 6.2832); ctx.fill();
+      g = ctx.createRadialGradient(q.x + dx / L * s * 0.5, q.y + dy / L * s * 0.5, s * 0.05, q.x, q.y, s);
+      g.addColorStop(0, rgba(mix(p.c, WHITE, 0.75), 1)); g.addColorStop(0.5, rgba(p.c, 1)); g.addColorStop(1, rgba(mix(p.c, BG, 0.8), 1));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, s, 0, TAU); ctx.fill();
     }
     ctx.font = (on ? '500 ' : '400 ') + '12px "JetBrains Mono", ui-monospace, monospace';
-    ctx.fillStyle = on ? rgba(mix(p.c, WHITE, 0.35), 1) : rgba(INK, 0.55 + 0.3 * (q.d + 1) / 2);
+    ctx.fillStyle = on ? rgba(mix(p.c, WHITE, 0.4), 1) : rgba(INK, 0.6 + 0.3 * (q.d + 1) / 2);
     const right = q.x < W - 120;
     ctx.textAlign = right ? 'left' : 'right';
     ctx.fillText(p.name, q.x + (right ? s + 10 : -s - 10), q.y + 4);
   }
-  function drawStar(now){
-    const pulse = reduce.matches ? 1 : 1 + 0.06 * Math.sin(now * 0.0016);
-    const s = Math.max(15, R * 0.075);
+  function heartPath(s){
+    ctx.beginPath();
+    for (let i = 0; i <= 64; i++){
+      const t = i / 64 * TAU, x = 16 * Math.pow(Math.sin(t), 3), y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) - 2.5;
+      i ? ctx.lineTo(x * s / 16, y * s / 16) : ctx.moveTo(x * s / 16, y * s / 16);
+    }
+    ctx.closePath();
+  }
+  function drawHeart(now){
+    const x = (now - beatAt) / 1000;
+    const b = reduce.matches ? 0 : Math.exp(-Math.pow((x - 0.16) / 0.10, 2)) + 0.6 * Math.exp(-Math.pow((x - 0.56) / 0.13, 2));
+    const s = Math.max(17, R * 0.105) * (1 + 0.10 * b);
     ctx.globalCompositeOperation = 'lighter';
-    let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, s * 9 * pulse);
-    g.addColorStop(0, rgba(LOVE, 0.34)); g.addColorStop(0.35, rgba(LOVE, 0.10)); g.addColorStop(1, rgba(LOVE, 0));
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, s * 9 * pulse, 0, 6.2832); ctx.fill();
-    // anamorphic flare
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(roll); ctx.scale(1, 0.035);
-    g = ctx.createRadialGradient(0, 0, 0, 0, 0, R * 0.95 * pulse);
-    g.addColorStop(0, rgba(mix(LOVE, WHITE, 0.6), 0.9)); g.addColorStop(1, rgba(LOVE, 0));
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, R * 0.95 * pulse, 0, 6.2832); ctx.fill(); ctx.restore();
+    let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, s * (6.5 + b * 1.5));
+    g.addColorStop(0, rgba(LOVE, 0.42 + 0.2 * b)); g.addColorStop(0.3, rgba(LOVE, 0.13)); g.addColorStop(1, rgba(LOVE, 0));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, s * 8, 0, TAU); ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
-    g = ctx.createRadialGradient(cx - s * 0.25, cy - s * 0.25, 0, cx, cy, s);
-    g.addColorStop(0, '#FFF6F2'); g.addColorStop(0.45, rgba(mix(LOVE, WHITE, 0.35), 1)); g.addColorStop(1, rgba(LOVE, 1));
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, s, 0, 6.2832); ctx.fill();
+    ctx.save(); ctx.translate(cx, cy);
+    ctx.shadowColor = rgba(LOVE, 0.9); ctx.shadowBlur = s * (0.9 + b);
+    g = ctx.createRadialGradient(-s * 0.4, -s * 0.5, s * 0.05, 0, 0, s * 1.25);
+    g.addColorStop(0, '#FFF1EC'); g.addColorStop(0.35, '#FF9CAB'); g.addColorStop(0.75, rgba(LOVE, 1)); g.addColorStop(1, '#C8405F');
+    heartPath(s); ctx.fillStyle = g; ctx.fill(); ctx.shadowBlur = 0;
+    ctx.globalAlpha = 0.5; ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.ellipse(-s * 0.45, -s * 0.48, s * 0.2, s * 0.11, -0.7, 0, TAU); ctx.fill();
+    ctx.restore();
   }
   let last = 0;
   function drawOrrery(now){
     const dt = Math.min(50, now - last); last = now;
-    pitch += (tPitch - pitch) * 0.06; roll += (tRoll - roll) * 0.06;
-    cp = Math.cos(pitch); sp = Math.sin(pitch); cr = Math.cos(roll); sr = Math.sin(roll);
     ctx.clearRect(0, 0, W, H);
-    for (const p of planets){
-      if (!reduce.matches) p.a += dt * p.speed * (active && active !== p.id ? 0.35 : 1);
-      p.q = proj(R * p.r, p.a);
-      const on = active === p.id;
-      // orbit
-      orbitPath(R * p.r, 0, 6.2832, 96);
-      ctx.strokeStyle = on ? rgba(p.c, 0.55) : rgba(INK, 0.09);
-      ctx.lineWidth = 1; ctx.setLineDash(p.hollow ? [2, 6] : []); ctx.stroke(); ctx.setLineDash([]);
-      // comet trail behind the planet
-      if (!p.hollow){
-        ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
-        const span = on ? 2.6 : 1.5, n = 28;
-        for (let i = 0; i < n; i++){
-          const k = (i + 1) / n;
-          orbitPath(R * p.r, p.a - span * (1 - i / n), p.a - span * (1 - k), 2);
-          ctx.strokeStyle = rgba(p.c, k * k * (on ? 0.95 : 0.7)); ctx.lineWidth = 0.6 + k * 1.8; ctx.stroke();
-        }
-        ctx.globalCompositeOperation = 'source-over';
+    if (!reduce.matches){
+      if (now > nextBeat){ beatAt = now; ripples.push(now + 160, now + 560); nextBeat = now + 5500 + Math.random() * 3500; }
+      while (ripples.length && now - ripples[0] > RIPPLE) ripples.shift();
+      for (const t0 of ripples){
+        const f = (now - t0) / RIPPLE; if (f < 0) continue;
+        orbitPath(R * (0.1 + (1 - Math.pow(1 - f, 2)) * 0.95), 0, TAU, 72);
+        ctx.strokeStyle = rgba(LOVE, 0.5 * Math.pow(1 - f, 2)); ctx.lineWidth = 1.2; ctx.stroke();
       }
+    }
+    for (const p of planets){
+      if (!reduce.matches) p.a += dt * p.speed;
+      p.q = proj(R * p.r, p.a);
+      if (p.hollow){
+        orbitPath(R * p.r, 0, TAU, 96);
+        ctx.strokeStyle = rgba(INK, active === p.id ? 0.4 : 0.12); ctx.lineWidth = 1; ctx.setLineDash([2, 6]); ctx.stroke(); ctx.setLineDash([]);
+      } else drawRing(p, active === p.id);
     }
     const order = planets.slice().sort((a, b) => a.q.d - b.q.d);
     order.filter(p => p.q.d < 0).forEach(drawPlanet);
-    drawStar(now);
+    drawHeart(now);
     order.filter(p => p.q.d >= 0).forEach(drawPlanet);
   }
 
@@ -572,7 +586,7 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
     if (visible) drawOrrery(now);
     if (!reduce.matches) requestAnimationFrame(frame);
   }
-  const still = () => { if (reduce.matches) { pitch = tPitch; roll = tRoll; requestAnimationFrame(frame); } };
+  const still = () => { if (reduce.matches) requestAnimationFrame(frame); };
   skySize(); resize();
   requestAnimationFrame(frame);
   addEventListener('resize', () => { skySize(); still(); });
@@ -580,17 +594,6 @@ footer .mono{font-family:var(--mono);letter-spacing:.1em}
   new ResizeObserver(() => { resize(); still(); }).observe(cv);
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(cv);
   reduce.addEventListener('change', () => requestAnimationFrame(frame));
-
-  // pointer tilts the orbital plane
-  const hero = document.querySelector('.hero');
-  hero.addEventListener('pointermove', e => {
-    if (e.pointerType === 'touch') return;
-    const b = hero.getBoundingClientRect();
-    tRoll = ROLL0 + ((e.clientX - b.left) / b.width - 0.5) * 0.34;
-    tPitch = PITCH0 - ((e.clientY - b.top) / b.height - 0.5) * 0.4;
-    still();
-  });
-  hero.addEventListener('pointerleave', () => { tRoll = ROLL0; tPitch = PITCH0; still(); });
 
   // product cards <-> planets
   const rows = document.querySelectorAll('.prod');
